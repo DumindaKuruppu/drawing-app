@@ -38,14 +38,14 @@ class DrawingView(context: Context, attributes: AttributeSet) : View(context, at
     }
 
     // TODO: Make nullable if crashes
-    override fun onDraw(canvas: Canvas) {
+    override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas.drawBitmap(mCanvasBitmap!!, 0f, 0f, mCanvasPaint)
+        canvas?.drawBitmap(mCanvasBitmap!!, 0f, 0f, mCanvasPaint)
 
         if (!mDrawPath!!.isEmpty) {
             mDrawPaint!!.strokeWidth = mDrawPath!!.brushThickness
             mDrawPaint!!.color = mDrawPath!!.color
-            canvas.drawPath(mDrawPath!!, mDrawPaint!!)
+            canvas?.drawPath(mDrawPath!!, mDrawPaint!!)
         }
     }
 
@@ -60,12 +60,20 @@ class DrawingView(context: Context, attributes: AttributeSet) : View(context, at
                 mDrawPath!!.brushThickness = mBrushSize
 
                 mDrawPath!!.reset()
-                mDrawPath!!.moveTo(touchX!!, touchY!!)
+                if (touchX != null) {
+                    if (touchY != null) {
+                        mDrawPath!!.moveTo(touchX, touchY)
+                    }
+                }
 
             }
 
             MotionEvent.ACTION_MOVE -> {
-                mDrawPath!!.lineTo(touchX!!, touchY!!)
+                if (touchX != null) {
+                    if (touchY != null) {
+                        mDrawPath!!.lineTo(touchX, touchY)
+                    }
+                }
             }
 
             MotionEvent.ACTION_UP -> {
@@ -73,13 +81,14 @@ class DrawingView(context: Context, attributes: AttributeSet) : View(context, at
             }
 
             else -> return false
-
         }
         invalidate()
 
-        return super.onTouchEvent(event)
+        return true
     }
 
-    internal inner class CustomPath(var color: Int, var brushThickness: Float) : Path()
+    internal inner class CustomPath(var color: Int, var brushThickness: Float) : Path() {
+
+    }
 
 }
