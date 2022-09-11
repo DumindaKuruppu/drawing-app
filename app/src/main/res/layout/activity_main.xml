@@ -6,27 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.example.drawingapp.DrawingView
-        android:id="@+id/drawingView"
+    <FrameLayout
+        android:id="@+id/fl_drawing_view_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="5dp"
         android:background="@drawable/canvas_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/paintColors"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/paintColors"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/naruto_image" />
+
+        <com.example.drawingapp.DrawingView
+            android:id="@+id/drawingView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80666666" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/paintColors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/iBtnBrushSizeSelector"
+        app:layout_constraintBottom_toTopOf="@id/ll_action_buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/drawingView">
+        app:layout_constraintTop_toBottomOf="@id/fl_drawing_view_container">
 
         <ImageButton
             android:layout_width="25dp"
@@ -103,17 +118,33 @@
 
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/iBtnBrushSizeSelector"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="5dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/brush"
+    <LinearLayout
+        android:id="@+id/ll_action_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/paintColors" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/iBtnBrushSizeSelector"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/brush" />
+
+        <ImageButton
+            android:id="@+id/iBtnImageSelector"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/brush" />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
