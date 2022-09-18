@@ -142,7 +142,23 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:scaleType="fitXY"
-            android:src="@drawable/brush" />
+            android:src="@drawable/image_selector" />
+
+        <ImageButton
+            android:id="@+id/btnUndo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/undo" />
+
+        <ImageButton
+            android:id="@+id/btnRedo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/redo" />
 
     </LinearLayout>
 

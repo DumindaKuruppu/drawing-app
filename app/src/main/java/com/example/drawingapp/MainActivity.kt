@@ -24,14 +24,13 @@ class MainActivity : AppCompatActivity() {
     private var drawingView: DrawingView? = null
     private var mImageButtonCurrentPaint: ImageButton? = null
 
-    val openGalleryLauncher: ActivityResultLauncher<Intent> =
+    private val openGalleryLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK && result.data != null) {
                 val imageBackground: ImageView = findViewById(R.id.iv_background)
                 imageBackground.setImageURI(result.data?.data)
             }
         }
-
 
     private val storageResultLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -75,11 +74,18 @@ class MainActivity : AppCompatActivity() {
 
         val iBtnImageSelector: ImageButton = findViewById(R.id.iBtnImageSelector)
         iBtnImageSelector.setOnClickListener {
-
             requestStoragePermission()
-
         }
 
+        val btnUndo: ImageButton = findViewById(R.id.btnUndo)
+        btnUndo.setOnClickListener {
+            drawingView?.onClickUndo()
+        }
+
+        val btnRedo: ImageButton = findViewById(R.id.btnRedo)
+        btnRedo.setOnClickListener {
+            drawingView?.onClickRedo()
+        }
 
     }
 
@@ -98,7 +104,6 @@ class MainActivity : AppCompatActivity() {
             )
         }
     }
-
 
     private fun showBrushSizeChooserDialog() {
         val brushDialog = Dialog(this)
