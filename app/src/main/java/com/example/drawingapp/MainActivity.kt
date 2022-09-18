@@ -2,10 +2,13 @@ package com.example.drawingapp
 
 import android.Manifest
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -21,6 +24,15 @@ class MainActivity : AppCompatActivity() {
     private var drawingView: DrawingView? = null
     private var mImageButtonCurrentPaint: ImageButton? = null
 
+    val openGalleryLauncher: ActivityResultLauncher<Intent> =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK && result.data != null) {
+                val imageBackground: ImageView = findViewById(R.id.iv_background)
+                imageBackground.setImageURI(result.data?.data)
+            }
+        }
+
+
     private val storageResultLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             permissions.entries.forEach {
@@ -30,6 +42,12 @@ class MainActivity : AppCompatActivity() {
                 if (isGranted) {
                     Toast.makeText(this@MainActivity, "Permission granted !", Toast.LENGTH_SHORT)
                         .show()
+
+                    val pickIntent =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    openGalleryLauncher.launch(pickIntent)
+
+
                 } else {
                     if (permissionName == Manifest.permission.READ_EXTERNAL_STORAGE) {
                         Toast.makeText(this, "Denied", Toast.LENGTH_SHORT).show()
@@ -73,9 +91,11 @@ class MainActivity : AppCompatActivity() {
         ) {
             showRationalDialog("Kids Drawing App", "This app needs to access your external storage")
         } else {
-            storageResultLauncher.launch(arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ))
+            storageResultLauncher.launch(
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            )
         }
     }
 
