@@ -160,6 +160,14 @@
             android:scaleType="fitXY"
             android:src="@drawable/redo" />
 
+        <ImageButton
+            android:id="@+id/btnSave"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/save" />
+
     </LinearLayout>
 
 
